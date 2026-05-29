@@ -321,25 +321,17 @@
             cursor: pointer;
         }
 
-        /* PAGE */
         .paper {
-            position: absolute;
-            inset: 0;
-            transform-origin: left;
-            transform-style: preserve-3d;
-            transition: transform 1.1s cubic-bezier(0.45, 0, 0.2, 1);
-
-            /* 🔥 penting: jangan pakai backface hidden di root paper */
-            backface-visibility: visible;
-
-            cursor: pointer;
-            z-index: 1;
+    position: absolute;
+    inset: 0;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 1s ease-in-out;
+    backface-visibility: visible;
         }
 
 .paper.flipped {
     transform: rotateY(-180deg);
-    box-shadow: -20px 0 40px rgba(0,0,0,.25);
-    pointer-events: none;
 }
 
         /* FRONT & BACK */
