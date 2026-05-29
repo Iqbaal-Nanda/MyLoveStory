@@ -334,10 +334,13 @@
 
         .book {
             position: relative;
-            width: 560px;
-            height: 780px;
+            /* Gunakan aspect-ratio agar proporsi buku (panjang & lebar) tidak rusak */
+            width: 85vw; /* 85% dari lebar layar HP */
+            aspect-ratio: 560 / 780; /* Menjaga proporsi asli */
+            max-width: 340px; /* Batas lebar maksimal di HP agar tidak terlalu besar */
             perspective: 3000px;
             cursor: pointer;
+            margin: 0 auto; /* Memastikan posisi buku di tengah layar */
         }
 
         .book-img {
