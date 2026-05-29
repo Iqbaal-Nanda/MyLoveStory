@@ -1157,6 +1157,21 @@
             });
         }
 
+        function updateBookPosition() {
+            const bookContainer = document.querySelector('.book');
+            if (window.innerWidth <= 768) {
+                bookContainer.style.transform = 'translateX(0)';
+                return;
+            }
+            if (currentLocation === 0) {
+                bookContainer.style.transform = 'translateX(0%)';
+            } else if (currentLocation === numOfPapers) {
+                bookContainer.style.transform = 'translateX(100%)';
+            } else {
+                bookContainer.style.transform = 'translateX(50%)';
+            }
+        }
+
         function playPageSound() {
             pageSound.currentTime = 0;
             pageSound.play();
@@ -1177,6 +1192,7 @@
                 }, 500);
 
                 playPageSound();
+                updateBookPosition();
             }
         }
 
@@ -1189,6 +1205,7 @@
                 currentPaper.style.zIndex = numOfPapers - currentLocation;
 
                 playPageSound();
+                updateBookPosition();
             }
         }
 
@@ -1202,8 +1219,9 @@
             });
         });
 
-        // Initialize book z-indexes
+        // Initialize book z-indexes and position
         updateZIndex();
+        updateBookPosition();
 
         /* ==============================
            4. MINI GAME
