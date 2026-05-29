@@ -281,10 +281,6 @@
             color: #ddd;
         }
 
-        .novel {
-            max-width: 900px;
-            margin: auto;
-        }
 
         .story-card {
             background: rgba(255, 255, 255, 0.06);
@@ -297,63 +293,152 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .novel-slider {
-            position: relative;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        .slides {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .story-card {
-            display: none;
-            animation: fadeSlide 0.5s ease;
-        }
-
-        .story-card.active {
-            display: block;
-        }
-
-        .story-card h3 {
-            color: #ff8db8;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-
-        .novel-buttons {
+        .book-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
+            flex-direction: column;
+            align-items: center;
+            perspective: 3000px;
         }
 
-        .novel-buttons button {
-            padding: 14px 30px;
-            border: none;
-            border-radius: 50px;
-            background: linear-gradient(45deg, #ff4d8d, #ff7eb3);
-            color: white;
+        .book-img {
+            width: 85%;
+            height: 220px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            backface-visibility: hidden;
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 🔥 FIX UTAMA */
+        .book {
+            position: relative;
+            width: 560px;
+            height: 780px;
+            perspective: 3000px;
             cursor: pointer;
-            font-size: 15px;
-            transition: 0.3s;
         }
 
-        .novel-buttons button:hover {
-            transform: scale(1.05);
+        /* PAGE */
+        .paper {
+            position: absolute;
+            inset: 0;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform 1.1s cubic-bezier(0.45, 0, 0.2, 1);
+
+            /* 🔥 penting: jangan pakai backface hidden di root paper */
+            backface-visibility: visible;
+
+            cursor: pointer;
+            z-index: 1;
         }
 
-        @keyframes fadeSlide {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
+        /* FLIP */
+        .paper.flipped {
+            transform: rotateY(-180deg);
+            box-shadow: -20px 0 40px rgba(0, 0, 0, 0.25);
+
+        }
+
+        /* FRONT & BACK */
+        .front,
+        .back {
+            position: absolute;
+            inset: 0;
+            padding: 40px;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            overflow: visible;
+            background: #fffaf0;
+            color: #333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* BACK SIDE */
+        .back {
+            transform: rotateY(180deg);
+        }
+
+
+        /* COVER */
+        .cover {
+            background: linear-gradient(135deg, #ff4d8d, #ff7eb3);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 20px;
+
+        }
+
+        .front.cover img {
+            height: 320px;
+        }
+
+        /* Back cover will be displayed only after flipping the final page */
+
+        .back.cover .book-img {
+            width: 85%;
+            height: 320px;
+
+            object-fit: contain;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+            backface-visibility: hidden;
+        }
+
+        .cover h1 {
+            font-size: 50px;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* TEXT */
+        .front h2,
+        .back h2 {
+            color: #ff4d8d;
+            margin-bottom: 25px;
+            font-size: 30px;
+        }
+
+        .front p,
+        .back p {
+            line-height: 2.2;
+            font-size: 17px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 500px) {
+            .book {
+                width: 100%;
+                height: 520px;
+                filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.4));
             }
 
-            to {
-                opacity: 1;
-                transform: translateX(0);
+            .front,
+            .back {
+                padding: 25px;
+            }
+
+            .cover h1 {
+                font-size: 38px;
+            }
+
+            .front h2,
+            .back h2 {
+                font-size: 24px;
+            }
+
+            .front p,
+            .back p {
+                font-size: 15px;
             }
         }
 
@@ -578,68 +663,229 @@
             <h2>Novel Kisah Kita</h2>
         </div>
 
-        <div class="novel-slider">
+        <div class="book-container">
 
-            <div class="slides">
+            <div class="book" id="book">
 
-                <!-- SLIDE 1 -->
-                <div class="story-card active">
-                    <h3>Bab 1 — Pertemuan ❤️</h3>
+                <!-- COVER DEPAN -->
+                <div class="paper">
+                    <div class="front cover">
+                        <img src="images/book/front-cover/1.jpg" class="book-img">
+                        <h1>Kisah Cinta Kita ❤️</h1>
+                        <p>Awal dari sebuah cerita panjang</p>
+                    </div>
 
-                    <p>
-                        Tidak ada yang kebetulan di dunia ini.
-                        Semua seperti sudah ditulis oleh semesta.
-
-                        Hari itu, aku melihatmu untuk pertama kali.
-                        Senyummu sederhana, tapi cukup untuk membuat dunia terasa lebih hangat.
-
-                        Awalnya kita hanyalah dua orang asing yang saling bertukar pesan.
-                        Namun waktu perlahan membuat semuanya berubah.
-                    </p>
+                    <div class="back">
+                        <img src="images/book/book-page/1.jpg" class="book-img">
+                        <h2>Bab 1 — Pertemuan</h2>
+                        <p>
+                            Tidak ada yang kebetulan di dunia ini. Semua sudah seperti skenario semesta.
+                            Hari itu kita bertemu untuk pertama kalinya...
+                            dan dari situlah semuanya dimulai.
+                            Waktu seolah melambat saat tatap mata kita saling mengunci di tengah riuhnya kepungan dunia.
+                            Kita, dua orang asing yang membawa cerita dan luka masing-masing, mendadak dipaksa berhenti
+                            oleh takdir untuk berada di satu titik koordinat yang sama. Detik itu juga, angin malam
+                            seakan berbisik bahwa kehadiranmu bukan sekadar lewat, melainkan sebuah bab baru yang
+                            sengaja ditulis untuk mengubah seluruh arah hidupku.
+                        </p>
+                    </div>
                 </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 2 — Awal Obrolan</h2>
+                        <img src="images/book/book-page/2.jpg" class="book-img">
+                        <p>
+                            Kita mulai dari hal kecil, pesan singkat, candaan receh,
+                            tapi dari situ aku mulai nyaman berbicara denganmu setiap hari.
+                        </p>
 
-                <!-- SLIDE 2 -->
-                <div class="story-card">
-                    <h3>Bab 2 — Jatuh Cinta ✨</h3>
+                    </div>
 
-                    <p>
-                        Aku tidak tahu sejak kapan rasa itu tumbuh.
-                        Yang aku tahu, setiap hariku terasa berbeda saat bersamamu.
-
-                        Kamu menjadi alasan mengapa aku tersenyum tanpa sebab.
-                        Dan sejak saat itu,
-                        aku sadar bahwa rumah terbaik bukanlah tempat,
-                        melainkan seseorang.
-                    </p>
+                    <div class="back">
+                        <h2>Bab 3 — Rasa Aneh Itu</h2>
+                        <p>
+                            Aku tidak sadar kapan tepatnya, tapi ada rasa yang berbeda setiap kali namamu muncul di
+                            layar.
+                        </p>
+                        <img src="images/book/book-page/3.jpg" class="book-img">
+                    </div>
                 </div>
+                <div class="paper">
+                    <div class="front">
+                        <img src="images/book/book-page/4.jpg" class="book-img">
+                        <h2>Bab 4 — Perhatian Kecil</h2>
+                        <p>
+                            Hal kecil darimu terasa besar bagiku.
+                            Cara kamu peduli tanpa diminta membuatku merasa dihargai.
+                        </p>
 
-                <!-- SLIDE 3 -->
-                <div class="story-card">
-                    <h3>Bab 3 — Selamanya 💕</h3>
+                    </div>
 
-                    <p>
-                        Aku tidak menjanjikan hubungan yang sempurna.
-                        Tapi aku berjanji akan selalu berusaha.
-
-                        Karena bagiku,
-                        mencintaimu bukan tentang siapa yang paling hebat,
-                        melainkan tentang siapa yang tetap bertahan.
-
-                        Semoga kisah ini terus berlanjut hingga tua nanti ❤️
-                    </p>
+                    <div class="back">
+                        <h2>Bab 5 — Senyum Itu</h2>
+                        <img src="images/book/book-page/5.jpg" class="book-img">
+                        <p>
+                            Senyummu adalah alasan hari-hariku jadi lebih tenang.
+                        </p>
+                    </div>
                 </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 6 — Ketergantungan</h2>
+                        <p>
+                            Aku mulai terbiasa dengan kehadiranmu,
+                            sampai hari tanpa kabar darimu terasa berbeda.
+                        </p>
+                        <img src="images/book/book-page/6.jpg" class="book-img">
 
+                    </div>
+
+                    <div class="back">
+                        <img src="images/book/book-page/7.jpg" class="book-img">
+                        <h2>Bab 7 — Malam Panjang</h2>
+                        <p>
+                            Obrolan kita di malam hari jadi tempat paling nyaman untuk pulang.
+                        </p>
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 8 — Jatuh Perlahan</h2>
+                        <img src="images/book/book-page/8.jpg" class="book-img">
+                        <p>
+                            Aku tidak jatuh cinta secara tiba-tiba,
+                            tapi perlahan tanpa aku sadari.
+                        </p>
+                    </div>
+
+                    <div class="back">
+                        <h2>Bab 9 — Kamu</h2>
+                        <p>
+                            Kamu bukan sekadar seseorang,
+                            kamu adalah alasan aku ingin menjadi lebih baik.
+                        </p>
+                        <img src="images/book/book-page/9.jpg" class="book-img">
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <img src="images/book/book-page/10.jpg" class="book-img">
+                        <h2>Bab 10 — Harapan Kecil</h2>
+                        <p>
+                            Aku mulai berharap kamu tetap ada di setiap esokku.
+                        </p>
+                    </div>
+
+                    <div class="back">
+                        <h2>Bab 11 — Takut Kehilangan</h2>
+                        <img src="images/book/book-page/11.jpg" class="book-img">
+                        <p>
+                            Semakin dekat, semakin aku takut kehilanganmu.
+                        </p>
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 12 — Cemburu</h2>
+                        <p>
+                            Aku tidak suka mengakuinya,
+                            tapi aku mulai cemburu saat kamu dekat dengan yang lain.
+                        </p>
+                        <img src="images/book/book-page/12.jpg" class="book-img">
+
+                    </div>
+
+                    <div class="back">
+                        <img src="images/book/book-page/13.jpg" class="book-img">
+                        <h2>Bab 13 — Diam-Diam</h2>
+                        <p>
+                            Aku menyimpan semua rasa ini sendiri,
+                            berharap kamu bisa merasakannya tanpa aku ucapkan.
+                        </p>
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 14 — Keputusan</h2>
+                        <img src="images/book/book-page/14.jpg" class="book-img">
+                        <p>
+                            Aku memutuskan untuk tetap bertahan,
+                            meski tidak tahu arah akhirnya.
+                        </p>
+                    </div>
+
+                    <div class="back">
+                        <h2>Bab 15 — Perjuangan</h2>
+                        <p>
+                            Tidak semua hal mudah,
+                            tapi aku tetap mencoba karena kamu layak diperjuangkan.
+                        </p>
+                        <img src="images/book/book-page/15.jpg" class="book-img">
+
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <img src="images/book/book-page/16.jpg" class="book-img">
+                        <h2>Bab 16 — Luka Kecil</h2>
+                        <p>
+                            Ada beberapa hal yang menyakitkan,
+                            tapi aku memilih untuk tetap bertahan.
+                        </p>
+                    </div>
+
+                    <div class="back">
+                        <h2>Bab 17 — Belajar</h2>
+                        <img src="images/book/book-page/17.jpg" class="book-img">
+                        <p>
+                            Dari kamu, aku belajar bahwa cinta bukan hanya tentang bahagia.
+                        </p>
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 18 — Bertahan</h2>
+                        <p>
+                            Kita tidak sempurna,
+                            tapi kita selalu mencoba untuk tidak menyerah.
+                        </p>
+                        <img src="images/book/book-page/18.jpg" class="book-img">
+
+                    </div>
+
+                    <div class="back">
+                        <img src="images/book/book-page/19.jpg" class="book-img">
+                        <h2>Bab 19 — Masa Depan</h2>
+                        <p>
+                            Aku tidak tahu apa yang akan terjadi nanti,
+                            tapi aku ingin kamu tetap di dalamnya.
+                        </p>
+                    </div>
+                </div>
+                <div class="paper">
+                    <div class="front">
+                        <h2>Bab 20 — Selamanya</h2>
+                        <img src="images/book/book-page/20.jpg" class="book-img">
+                        <p>
+                            Jika boleh memilih,
+                            aku ingin cerita ini tidak pernah berakhir.
+                        </p>
+                    </div>
+
+                    <div class="back cover">
+                        <img src="images/book/back-cover/1.jpg" class="book-img">
+                        <h1>The End ❤️</h1>
+                    </div>
+                </div>
             </div>
-
-            <div class="novel-buttons">
-                <button onclick="prevSlide()">⟵ Sebelumnya</button>
-                <button onclick="nextSlide()">Selanjutnya ⟶</button>
-            </div>
-
         </div>
 
-    </section>
+        <!-- SUARA KERTAS -->
+        <audio id="pageSound">
+            <source src="music/page-flip.mp3" type="audio/mp3">
+        </audio>
 
+    </section>
 
     <section id="game">
         <div class="title">
@@ -763,41 +1009,92 @@
 
             isPlaying = !isPlaying;
         }
-        let currentSlide = 0;
 
-        const slides = document.querySelectorAll('.story-card');
 
-        function showSlide(index) {
+        const papers = document.querySelectorAll(".paper");
+        const pageSound = document.getElementById("pageSound");
 
-            slides.forEach(slide => {
-                slide.classList.remove('active');
+        let currentLocation = 0;
+        const numOfPapers = papers.length;
+
+        /* UPDATE Z-INDEX */
+        function updateZIndex() {
+
+            papers.forEach((paper, i) => {
+
+                if (i < currentLocation) {
+                    paper.style.zIndex = i;
+                } else {
+                    paper.style.zIndex = numOfPapers - i;
+                }
+
             });
 
-            slides[index].classList.add('active');
         }
 
-        function nextSlide() {
-            currentSlide++;
+        /* SOUND */
+        function playPageSound() {
+            pageSound.currentTime = 0;
+            pageSound.play();
+        }
 
-            if (currentSlide >= slides.length) {
-                currentSlide = 0;
+        /* NEXT */
+        function goNextPage() {
+
+            if (currentLocation < numOfPapers) {
+
+                papers[currentLocation].classList.add("flipped");
+
+                currentLocation++;
+
+                updateZIndex();
+
+                playPageSound();
             }
 
-            showSlide(currentSlide);
         }
 
-        function prevSlide() {
-            currentSlide--;
+        /* PREV */
+        function goPrevPage() {
 
-            if (currentSlide < 0) {
-                currentSlide = slides.length - 1;
+            if (currentLocation > 0) {
+
+                currentLocation--;
+
+                papers[currentLocation].classList.remove("flipped");
+
+                updateZIndex();
+
+                playPageSound();
             }
 
-            showSlide(currentSlide);
         }
 
-        showSlide(currentSlide);
+        /* CLICK SYSTEM */
+        papers.forEach((paper, index) => {
 
+            paper.addEventListener("click", () => {
+
+                /* HALAMAN KANAN = NEXT */
+                if (index === currentLocation) {
+
+                    goNextPage();
+
+                }
+
+                /* HALAMAN KIRI = PREV */
+                else if (index === currentLocation - 1) {
+
+                    goPrevPage();
+
+                }
+
+            });
+
+        });
+
+        /* INIT */
+        updateZIndex();
     </script>
 
 </body>
