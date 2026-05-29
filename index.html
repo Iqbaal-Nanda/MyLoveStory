@@ -297,6 +297,66 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .novel-slider {
+            position: relative;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .slides {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card {
+            display: none;
+            animation: fadeSlide 0.5s ease;
+        }
+
+        .story-card.active {
+            display: block;
+        }
+
+        .story-card h3 {
+            color: #ff8db8;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .novel-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .novel-buttons button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(45deg, #ff4d8d, #ff7eb3);
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .novel-buttons button:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .story-card span {
             color: #ff8db8;
             font-weight: 600;
@@ -513,57 +573,73 @@
     </section>
 
     <section id="novel">
+
         <div class="title">
             <h2>Novel Kisah Kita</h2>
         </div>
 
-        <div class="novel">
-            <div class="story-card">
-                <p>
-                    <span>Bab 1 — Pertemuan</span><br><br>
+        <div class="novel-slider">
 
-                    Tidak ada yang kebetulan di dunia ini. Semua seperti sudah ditulis oleh semesta.
-                    Hari itu, aku melihatmu untuk pertama kali. Senyummu sederhana,
-                    tapi cukup untuk membuat dunia terasa lebih hangat.
+            <div class="slides">
 
-                    <br><br>
+                <!-- SLIDE 1 -->
+                <div class="story-card active">
+                    <h3>Bab 1 — Pertemuan ❤️</h3>
 
-                    Awalnya kita hanyalah dua orang asing yang saling bertukar pesan.
-                    Namun waktu perlahan membuat semuanya berubah.
-                    Dari obrolan kecil tengah malam, candaan receh, sampai perhatian kecil yang selalu ada.
+                    <p>
+                        Tidak ada yang kebetulan di dunia ini.
+                        Semua seperti sudah ditulis oleh semesta.
 
-                    <br><br>
+                        Hari itu, aku melihatmu untuk pertama kali.
+                        Senyummu sederhana, tapi cukup untuk membuat dunia terasa lebih hangat.
 
-                    <span>Bab 2 — Jatuh Cinta</span><br><br>
+                        Awalnya kita hanyalah dua orang asing yang saling bertukar pesan.
+                        Namun waktu perlahan membuat semuanya berubah.
+                    </p>
+                </div>
 
-                    Aku tidak tahu sejak kapan rasa itu tumbuh.
-                    Yang aku tahu, setiap hariku terasa berbeda saat bersamamu.
-                    Kamu menjadi alasan mengapa aku tersenyum tanpa sebab.
+                <!-- SLIDE 2 -->
+                <div class="story-card">
+                    <h3>Bab 2 — Jatuh Cinta ✨</h3>
 
-                    <br><br>
+                    <p>
+                        Aku tidak tahu sejak kapan rasa itu tumbuh.
+                        Yang aku tahu, setiap hariku terasa berbeda saat bersamamu.
 
-                    Dan sejak saat itu,
-                    aku sadar bahwa rumah terbaik bukanlah tempat,
-                    melainkan seseorang.
+                        Kamu menjadi alasan mengapa aku tersenyum tanpa sebab.
+                        Dan sejak saat itu,
+                        aku sadar bahwa rumah terbaik bukanlah tempat,
+                        melainkan seseorang.
+                    </p>
+                </div>
 
-                    <br><br>
+                <!-- SLIDE 3 -->
+                <div class="story-card">
+                    <h3>Bab 3 — Selamanya 💕</h3>
 
-                    <span>Bab 3 — Selamanya</span><br><br>
+                    <p>
+                        Aku tidak menjanjikan hubungan yang sempurna.
+                        Tapi aku berjanji akan selalu berusaha.
 
-                    Aku tidak menjanjikan hubungan yang sempurna.
-                    Tapi aku berjanji akan selalu berusaha.
-                    Karena bagiku, mencintaimu bukan tentang siapa yang paling hebat,
-                    melainkan tentang siapa yang tetap bertahan.
+                        Karena bagiku,
+                        mencintaimu bukan tentang siapa yang paling hebat,
+                        melainkan tentang siapa yang tetap bertahan.
 
-                    <br><br>
+                        Semoga kisah ini terus berlanjut hingga tua nanti ❤️
+                    </p>
+                </div>
 
-                    Terima kasih sudah hadir di hidupku.
-                    Semoga kisah ini tidak berhenti di sini,
-                    dan terus berlanjut hingga tua nanti ❤️
-                </p>
             </div>
+
+            <div class="novel-buttons">
+                <button onclick="prevSlide()">⟵ Sebelumnya</button>
+                <button onclick="nextSlide()">Selanjutnya ⟶</button>
+            </div>
+
         </div>
+
     </section>
+
 
     <section id="game">
         <div class="title">
@@ -687,6 +763,40 @@
 
             isPlaying = !isPlaying;
         }
+        let currentSlide = 0;
+
+        const slides = document.querySelectorAll('.story-card');
+
+        function showSlide(index) {
+
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            slides[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide++;
+
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            }
+
+            showSlide(currentSlide);
+        }
+
+        showSlide(currentSlide);
 
     </script>
 
