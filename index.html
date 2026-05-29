@@ -336,12 +336,11 @@
             z-index: 1;
         }
 
-        /* FLIP */
-        .paper.flipped {
-            transform: rotateY(-180deg);
-            box-shadow: -20px 0 40px rgba(0, 0, 0, 0.25);
-
-        }
+.paper.flipped {
+    transform: rotateY(-180deg);
+    box-shadow: -20px 0 40px rgba(0,0,0,.25);
+    pointer-events: none;
+}
 
         /* FRONT & BACK */
         .front,
@@ -1070,28 +1069,28 @@
 
         }
 
-        /* CLICK SYSTEM */
-        papers.forEach((paper, index) => {
+/* CLICK BOOK AREA */
+const book = document.getElementById("book");
 
-            paper.addEventListener("click", () => {
+book.addEventListener("click", (e) => {
 
-                /* HALAMAN KANAN = NEXT */
-                if (index === currentLocation) {
+    const rect = book.getBoundingClientRect();
 
-                    goNextPage();
+    const clickX = e.clientX - rect.left;
 
-                }
+    const center = rect.width / 2;
 
-                /* HALAMAN KIRI = PREV */
-                else if (index === currentLocation - 1) {
+    // Klik sisi kanan = next
+    if (clickX > center) {
+        goNextPage();
+    }
 
-                    goPrevPage();
+    // Klik sisi kiri = prev
+    else {
+        goPrevPage();
+    }
 
-                }
-
-            });
-
-        });
+});
 
         /* INIT */
         updateZIndex();
